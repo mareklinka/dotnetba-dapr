@@ -1,0 +1,186 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-main",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/DotNetBa.Dapr.Main/DotNetBa.Dapr.Main.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "build-userservice",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/DotNetBa.Dapr.UserService/DotNetBa.Dapr.UserService.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "build-notificationservice",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/DotNetBa.Dapr.NotificationService/DotNetBa.Dapr.NotificationService.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "dapr-main",
+            "command": "dapr",
+            "type": "shell",
+            "args": [
+                "run",
+                "--app-id",
+                "main",
+                "--app-port",
+                "5000",
+                "dotnet",
+                "run"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/DotNetBa.Dapr.Main",
+                "env": {
+                    "ASPNETCORE_URLS": "http://+:5000"
+                }
+            },
+            "dependsOn": ["build-main"],
+            "problemMatcher": [],
+            "isBackground": true,
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "dapr-userservice",
+            "command": "dapr",
+            "type": "shell",
+            "args": [
+                "run",
+                "--app-id",
+                "userservice",
+                "--app-port",
+                "5000",
+                "dotnet",
+                "run"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/DotNetBa.Dapr.UserService",
+                "env": {
+                    "ASPNETCORE_URLS": "http://+:5001"
+                }
+            },
+            "dependsOn": ["build-userservice"],
+            "problemMatcher": [],
+            "isBackground": true,
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "dapr-notificationservice",
+            "command": "dapr",
+            "type": "shell",
+            "args": [
+                "run",
+                "--app-id",
+                "notificationservice",
+                "--app-port",
+                "5000",
+                "dotnet",
+                "run"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/DotNetBa.Dapr.NotificationService",
+                "env": {
+                    "ASPNETCORE_URLS": "http://+:5002"
+                }
+            },
+            "dependsOn": ["build-notificationservice"],
+            "problemMatcher": [],
+            "isBackground": true,
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
+            "label": "dapr-all",
+            "command": "echo",
+            "type": "shell",
+            "args": [
+                "DAPR components starting"
+            ],
+            "dependsOn": [ "dapr-main", "dapr-notificationservice", "dapr-userservice"],
+            "dependsOrder": "parallel",
+            "problemMatcher": [],
+            "isBackground": true,
+            "group": "none",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+
+    ]
+}
