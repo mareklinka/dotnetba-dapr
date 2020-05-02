@@ -19,7 +19,9 @@ namespace DotNetBa.Dapr.Main.Controllers
         public UserController(ILogger<UserController> logger) => _logger = logger;
 
         [HttpPost]
-        public async Task<ActionResult> Login([FromBody] LoginModel model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
+        public async Task<ActionResult> Login([FromBody] LoginModel model,
+                                              [FromServices] DaprClient dapr,
+                                              CancellationToken cancellationToken)
         {
             _logger.LogInformation($"User {model.Username} is attempting to log in");
 
@@ -31,10 +33,10 @@ namespace DotNetBa.Dapr.Main.Controllers
             var request = new LoginRequest { Username = model.Username, Password = model.Password };
             var response =
                 await dapr.InvokeMethodAsync<LoginRequest, LoginResponse>("userservice",
-                                                                        "login/login",
-                                                                        request,
-                                                                        cancellationToken: cancellationToken)
-                        .ConfigureAwait(false);
+                                                                          "login/login",
+                                                                          request,
+                                                                          cancellationToken: cancellationToken)
+                          .ConfigureAwait(false);
 
             if (!response.IsSuccess)
             {
@@ -48,7 +50,10 @@ namespace DotNetBa.Dapr.Main.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult> Register([FromBody] RegistrationModel model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
+        public async Task<ActionResult> Register(
+            [FromBody] RegistrationModel model,
+            [FromServices] DaprClient dapr,
+            CancellationToken cancellationToken)
         {
             _logger.LogInformation($"User {model.Username} is attempting to register");
 

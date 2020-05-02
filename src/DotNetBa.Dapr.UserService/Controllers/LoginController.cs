@@ -19,7 +19,9 @@ namespace DotNetBa.Dapr.UserService.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<LoginResponse> Login(LoginRequest model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
+        public async Task<LoginResponse> Login([FromBody] LoginRequest model,
+                                               [FromServices] DaprClient dapr,
+                                               CancellationToken cancellationToken)
         {
             _logger.LogInformation("Login request received - processing...");
 
@@ -33,7 +35,12 @@ namespace DotNetBa.Dapr.UserService.Controllers
 
             _logger.LogInformation("Login request approved.");
 
-            return new LoginResponse { IsSuccess = true, Roles = new[] { "role_1", "role_x" }, Username = model.Username };
+            return new LoginResponse
+            {
+                IsSuccess = true,
+                Roles = new[] { "role_1", "role_x" },
+                Username = model.Username
+            };
         }
     }
 }
