@@ -14,10 +14,7 @@ namespace DotNetBa.Dapr.NotificationService.Controllers
     {
         private readonly ILogger<NotificationController> _logger;
 
-        public NotificationController(ILogger<NotificationController> logger)
-        {
-            _logger = logger;
-        }
+        public NotificationController(ILogger<NotificationController> logger) => _logger = logger;
 
         [Topic(Topics.LoginNotification)]
         [HttpPost(Topics.LoginNotification)]

@@ -16,10 +16,7 @@ namespace DotNetBa.Dapr.Main.Controllers
     {
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
-        {
-            _logger = logger;
-        }
+        public UserController(ILogger<UserController> logger) => _logger = logger;
 
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] LoginModel model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)

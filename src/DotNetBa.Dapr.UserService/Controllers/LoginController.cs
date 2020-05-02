@@ -15,10 +15,7 @@ namespace DotNetBa.Dapr.UserService.Controllers
     {
         private readonly ILogger<LoginController> _logger;
 
-        public LoginController(ILogger<LoginController> logger)
-        {
-            _logger = logger;
-        }
+        public LoginController(ILogger<LoginController> logger) => _logger = logger;
 
         [HttpPost]
         [Route("login")]
