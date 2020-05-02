@@ -14,6 +14,7 @@
       <input class="btn btn-primary" type="button" (click)="login()" [disabled]="isBusy || isDisabled()" value="Log in, mkay?" />
     </div>
     <span *ngIf="error" class="text-danger">{{ error }}</span>
+    <span *ngIf="message" class="text-success">{{ message }}</span>
   </div>
 </div>
 

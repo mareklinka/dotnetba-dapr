@@ -43,7 +43,6 @@ namespace DotNetBa.Dapr.Main
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {

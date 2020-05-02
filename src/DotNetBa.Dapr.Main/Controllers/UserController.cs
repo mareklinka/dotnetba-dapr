@@ -1,8 +1,5 @@
 ﻿using System.Security.Authentication;
 using System.Threading;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Dapr.Client;
@@ -42,10 +39,17 @@ namespace DotNetBa.Dapr.Main.Controllers
 
             var response =
                 await dapr.InvokeMethodAsync<LoginModel, LoginResponse>("userservice",
-                                                                        "login",
+                                                                        "login/login",
                                                                         model,
                                                                         cancellationToken: cancellationToken)
                         .ConfigureAwait(false);
+
+            if (!response.IsSuccess)
+            {
+                return Forbid();
+            }
+
+            _logger.LogInformation($"User {model.Username} is now logged in");
 
             return Ok();
         }

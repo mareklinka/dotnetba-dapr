@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Main",
+            "name": "Main with Dapr",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build-main",
+            "preLaunchTask": "daprd-main",
             "program": "${workspaceFolder}/DotNetBa.Dapr.Main/bin/Debug/netcoreapp3.1/DotNetBa.Dapr.Main.dll",
             "args": [],
             "cwd": "${workspaceFolder}/DotNetBa.Dapr.Main",
@@ -18,17 +18,19 @@
                 "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5000"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
-            }
+            },
+            "postDebugTask": "daprd-main-down"
         },
         {
-            "name": "UserService",
+            "name": "UserService with Dapr",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build-userservice",
+            "preLaunchTask": "daprd-userservice",
             "program": "${workspaceFolder}/DotNetBa.Dapr.UserService/bin/Debug/netcoreapp3.1/DotNetBa.Dapr.UserService.dll",
             "args": [],
             "cwd": "${workspaceFolder}/DotNetBa.Dapr.UserService",
@@ -38,31 +40,16 @@
                 "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5001"
             },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
-        },
+            "postDebugTask": "daprd-userservice-down"
+        }
+    ],
+    "compounds": [
         {
-            "name": "NotificationService",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build-notificationservice",
-            "program": "${workspaceFolder}/DotNetBa.Dapr.NotificationService/bin/Debug/netcoreapp3.1/DotNetBa.Dapr.NotificationService.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/DotNetBa.Dapr.NotificationService",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            }
+            "name": "Both",
+            "configurations": ["Main with Dapr", "UserService with Dapr"]
         }
     ]
 }

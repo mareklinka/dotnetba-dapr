@@ -83,7 +83,9 @@
                     "ASPNETCORE_URLS": "http://+:5000"
                 }
             },
-            "dependsOn": ["build-main"],
+            "dependsOn": [
+                "build-main"
+            ],
             "problemMatcher": [],
             "isBackground": true,
             "group": "none",
@@ -105,7 +107,7 @@
                 "--app-id",
                 "userservice",
                 "--app-port",
-                "5000",
+                "5001",
                 "dotnet",
                 "run"
             ],
@@ -115,7 +117,9 @@
                     "ASPNETCORE_URLS": "http://+:5001"
                 }
             },
-            "dependsOn": ["build-userservice"],
+            "dependsOn": [
+                "build-userservice"
+            ],
             "problemMatcher": [],
             "isBackground": true,
             "group": "none",
@@ -137,7 +141,7 @@
                 "--app-id",
                 "notificationservice",
                 "--app-port",
-                "5000",
+                "5002",
                 "dotnet",
                 "run"
             ],
@@ -147,7 +151,9 @@
                     "ASPNETCORE_URLS": "http://+:5002"
                 }
             },
-            "dependsOn": ["build-notificationservice"],
+            "dependsOn": [
+                "build-notificationservice"
+            ],
             "problemMatcher": [],
             "isBackground": true,
             "group": "none",
@@ -167,7 +173,10 @@
             "args": [
                 "DAPR components starting"
             ],
-            "dependsOn": [ "dapr-main", "dapr-notificationservice", "dapr-userservice"],
+            "dependsOn": [
+                "dapr-userservice",
+                "dapr-main"
+            ],
             "dependsOrder": "parallel",
             "problemMatcher": [],
             "isBackground": true,
@@ -181,6 +190,67 @@
                 "clear": false
             }
         },
-
+        {
+            "appId": "main",
+            "appPort": 5000,
+            "label": "daprd-main",
+            "type": "daprd",
+            "dependsOn": ["build-main"],
+            "metricsPort": 9090,
+            "grpcPort": 50001,
+            "httpPort": 3500,
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "appId": "main",
+            "label": "daprd-main-down",
+            "type": "daprd-down",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "appId": "userservice",
+            "appPort": 5001,
+            "label": "daprd-userservice",
+            "type": "daprd",
+            "dependsOn": ["build-userservice"],
+            "metricsPort": 9091,
+            "grpcPort": 50002,
+            "httpPort": 3501,
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "appId": "userservice",
+            "label": "daprd-userservice-down",
+            "type": "daprd-down",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        }
     ]
 }
