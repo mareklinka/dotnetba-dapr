@@ -6,6 +6,7 @@ using DotNetBa.Dapr.Main.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DotNetBa.Dapr.Common.Models;
+using static DotNetBa.Dapr.Common.Constants;
 
 namespace DotNetBa.Dapr.Main.Controllers
 {
@@ -60,7 +61,7 @@ namespace DotNetBa.Dapr.Main.Controllers
             }
 
             await dapr
-                .SaveStateAsync("statestore",
+                .SaveStateAsync(Storage.Name,
                                 model.Username,
                                 new UserProfile { Name = model.Username, PhoneNumber = model.Phone },
                                 cancellationToken: cancellationToken)

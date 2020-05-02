@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using DotNetBa.Dapr.Common.Models;
+using static DotNetBa.Dapr.Common.Constants;
 
 namespace DotNetBa.Dapr.UserService.Controllers
 {
@@ -31,7 +32,7 @@ namespace DotNetBa.Dapr.UserService.Controllers
             }
 
             var request = new LoginNotificationRequest { Username = model.Username, Timestamp = DateTime.Now };
-            await dapr.PublishEventAsync("notification_login", request, cancellationToken).ConfigureAwait(false);
+            await dapr.PublishEventAsync(Topics.LoginNotification, request, cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Login request approved.");
 

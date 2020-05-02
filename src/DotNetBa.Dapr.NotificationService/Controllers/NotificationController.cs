@@ -5,6 +5,7 @@ using Dapr.Client;
 using DotNetBa.Dapr.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using static DotNetBa.Dapr.Common.Constants;
 
 namespace DotNetBa.Dapr.NotificationService.Controllers
 {
@@ -18,14 +19,14 @@ namespace DotNetBa.Dapr.NotificationService.Controllers
             _logger = logger;
         }
 
-        [HttpPost("notification_login")]
-        [Topic("notification_login")]
+        [Topic(Topics.LoginNotification)]
+        [HttpPost(Topics.LoginNotification)]
         public async Task<IActionResult> Post(LoginNotificationRequest model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Attempting to deliver a login notification for user {model.Username}");
 
             var profile = await dapr
-                .GetStateEntryAsync<UserProfile>("statestore", model.Username, cancellationToken: cancellationToken)
+                .GetStateEntryAsync<UserProfile>(Storage.Name, model.Username, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             if (profile.Value is null)
