@@ -1,4 +1,4 @@
-namespace DotNetBa.Dapr.NotificationService.Models
+namespace DotNetBa.Dapr.Common.Models
 {
     public class UserProfile
     {

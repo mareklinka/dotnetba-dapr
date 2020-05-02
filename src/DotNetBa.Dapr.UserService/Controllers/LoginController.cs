@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System;
 using Dapr.Client;
-using DotNetBa.Dapr.UserService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using DotNetBa.Dapr.Common.Models;
 
 namespace DotNetBa.Dapr.UserService.Controllers
 {
@@ -21,7 +21,7 @@ namespace DotNetBa.Dapr.UserService.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<LoginResponse> Login(LoginModel model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
+        public async Task<LoginResponse> Login(LoginRequest model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Login request received - processing...");
 
@@ -30,7 +30,8 @@ namespace DotNetBa.Dapr.UserService.Controllers
                 throw new Exception("this is my error message");
             }
 
-            await dapr.PublishEventAsync("notification_login", new { model.Username, Timestamp = DateTime.Now }, cancellationToken).ConfigureAwait(false);
+            var request = new LoginNotificationRequest { Username = model.Username, Timestamp = DateTime.Now };
+            await dapr.PublishEventAsync("notification_login", request, cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Login request approved.");
 

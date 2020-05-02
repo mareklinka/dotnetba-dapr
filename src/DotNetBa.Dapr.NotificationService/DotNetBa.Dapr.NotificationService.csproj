@@ -8,5 +8,9 @@
     <PackageReference Include="Dapr.AspNetCore" Version="0.6.0-preview01" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetBa.Dapr.Common\DotNetBa.Dapr.Common.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,13 +19,7 @@ namespace DotNetBa.Dapr.NotificationService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddDapr();
-
-            services.AddDaprClient(_ => _.UseJsonSerializationOptions(new JsonSerializerOptions
-            {
-                IgnoreNullValues = true,
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }));
+            services.AddDaprClient(_ => _.UseJsonSerializationOptions(Common.Serialization.JSON));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace DotNetBa.Dapr.UserService
 {
@@ -27,13 +19,7 @@ namespace DotNetBa.Dapr.UserService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddDapr();
-
-            services.AddDaprClient(_ => _.UseJsonSerializationOptions(new JsonSerializerOptions
-            {
-                IgnoreNullValues = true,
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }));
+            services.AddDaprClient(_ => _.UseJsonSerializationOptions(Common.Serialization.JSON));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

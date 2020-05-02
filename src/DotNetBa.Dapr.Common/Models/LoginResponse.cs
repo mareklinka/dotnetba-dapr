@@ -1,4 +1,4 @@
-namespace DotNetBa.Dapr.Main.Models
+namespace DotNetBa.Dapr.Common.Models
 {
     public class LoginResponse
     {

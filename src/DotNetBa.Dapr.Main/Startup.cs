@@ -1,8 +1,5 @@
-using System.Text.Json;
-using Dapr.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,19 +20,10 @@ namespace DotNetBa.Dapr.Main
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddDapr();
-
-            services.AddDaprClient(_ => _.UseJsonSerializationOptions(new JsonSerializerOptions
-            {
-                IgnoreNullValues = true,
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }));
+            services.AddDaprClient(_ => _.UseJsonSerializationOptions(Common.Serialization.JSON));
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

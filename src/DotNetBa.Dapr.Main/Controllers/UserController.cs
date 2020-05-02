@@ -1,11 +1,11 @@
 ﻿using System.Security.Authentication;
 using System.Threading;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Dapr.Client;
 using DotNetBa.Dapr.Main.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using DotNetBa.Dapr.Common.Models;
 
 namespace DotNetBa.Dapr.Main.Controllers
 {
@@ -30,10 +30,11 @@ namespace DotNetBa.Dapr.Main.Controllers
                 throw new AuthenticationException("Invalid login model");
             }
 
+            var request = new LoginRequest { Username = model.Username, Password = model.Password };
             var response =
-                await dapr.InvokeMethodAsync<LoginModel, LoginResponse>("userservice",
+                await dapr.InvokeMethodAsync<LoginRequest, LoginResponse>("userservice",
                                                                         "login/login",
-                                                                        model,
+                                                                        request,
                                                                         cancellationToken: cancellationToken)
                         .ConfigureAwait(false);
 
