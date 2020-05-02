@@ -18,7 +18,7 @@ namespace DotNetBa.Dapr.NotificationService.Controllers
 
         [Topic(Topics.LoginNotification)]
         [HttpPost(Topics.LoginNotification)]
-        public async Task<IActionResult> Post([FromServices] LoginNotificationRequest model,
+        public async Task<IActionResult> Post([FromBody] LoginNotificationRequest model,
                                               [FromServices] DaprClient dapr,
                                               CancellationToken cancellationToken)
         {

@@ -63,12 +63,31 @@
                 "ASPNETCORE_URLS": "http://localhost:5002"
             },
             "postDebugTask": "daprd-notificationservice-down"
+        },
+        {
+            "name": "ActorHost with Dapr",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/DotNetBa.Dapr.ActorService/bin/Debug/netcoreapp3.1/DotNetBa.Dapr.ActorService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/DotNetBa.Dapr.ActorService",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5003"
+            },
+            "preLaunchTask": "daprd-actors",
+            "postDebugTask": "daprd-actors-down"
         }
     ],
     "compounds": [
         {
             "name": "All",
-            "configurations": ["Main with Dapr", "UserService with Dapr", "NotificationService with Dapr"]
+            "configurations": ["Main with Dapr", "UserService with Dapr", "NotificationService with Dapr", "ActorHost with Dapr"]
         }
     ]
 }

@@ -65,14 +65,38 @@
             }
         },
         {
+            "label": "build-actors",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/DotNetBa.Dapr.ActorService/DotNetBa.Dapr.ActorService.fsproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true
+            }
+        },
+        {
             "appId": "main",
             "appPort": 5000,
             "label": "daprd-main",
             "type": "daprd",
-            "dependsOn": ["build-main"],
+            "dependsOn": [
+                "build-main"
+            ],
             "metricsPort": 9090,
             "grpcPort": 50001,
             "httpPort": 3500,
+            "placementAddress": "localhost:6050",
             "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
             "presentation": {
                 "echo": true,
@@ -101,10 +125,13 @@
             "appPort": 5001,
             "label": "daprd-userservice",
             "type": "daprd",
-            "dependsOn": ["build-userservice"],
+            "dependsOn": [
+                "build-userservice"
+            ],
             "metricsPort": 9091,
             "grpcPort": 50002,
             "httpPort": 3501,
+            "placementAddress": "localhost:6050",
             "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
             "presentation": {
                 "echo": true,
@@ -133,10 +160,13 @@
             "appPort": 5002,
             "label": "daprd-notificationservice",
             "type": "daprd",
-            "dependsOn": ["build-notificationservice"],
+            "dependsOn": [
+                "build-notificationservice"
+            ],
             "metricsPort": 9092,
             "grpcPort": 50003,
             "httpPort": 3502,
+            "placementAddress": "localhost:6050",
             "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
             "presentation": {
                 "echo": true,
@@ -159,6 +189,47 @@
                 "showReuseMessage": false,
                 "clear": false
             }
+        },
+        {
+            "appId": "actors",
+            "appPort": 5003,
+            "label": "daprd-actors",
+            "type": "daprd",
+            "dependsOn": [
+                "build-actors",
+                "reset-placement-service"
+            ],
+            "metricsPort": 9093,
+            "grpcPort": 50004,
+            "httpPort": 3503,
+            "placementAddress": "localhost:6050",
+            "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "appId": "actors",
+            "label": "daprd-actors-down",
+            "type": "daprd-down",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "reset-placement-service",
+            "type": "shell",
+            "command": "docker restart dapr_placement"
         }
     ]
 }

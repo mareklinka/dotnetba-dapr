@@ -6,6 +6,9 @@ using DotNetBa.Dapr.Main.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DotNetBa.Dapr.Common.Models;
+using Dapr.Actors.Client;
+using DotNetBa.Dapr.Common;
+using Dapr.Actors;
 using static DotNetBa.Dapr.Common.Constants;
 
 namespace DotNetBa.Dapr.Main.Controllers
@@ -43,6 +46,12 @@ namespace DotNetBa.Dapr.Main.Controllers
                 return Forbid();
             }
 
+            var proxy = ActorProxy.Create<IFancyActor>(new ActorId("1"), "FancyActor");
+            var actorResponse = await proxy
+                .PerformComplexCalculation(new FancyActorState() { Data = "My test data" })
+                .ConfigureAwait(false);
+
+            _logger.LogInformation($"Actor produced value \"{actorResponse}\" on behalf of the user");
             _logger.LogInformation($"User {model.Username} is now logged in");
 
             return Ok();
