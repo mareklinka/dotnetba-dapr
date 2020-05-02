@@ -36,4 +36,34 @@ export class HomeComponent {
       this.isBusy = false;
     }
   }
+
+  async register() {
+    try {
+      this.isBusy = true;
+
+      const phone = this.makePhone(10);
+      await this.http.post('/user/register', { 'username': this.username, 'password': this.password, 'phone': phone }).toPromise();
+      this.message = 'Registration successful';
+      this.error = undefined;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        this.error = error.message;
+      } else {
+        this.error = 'Some error occured';
+      }
+      this.message = undefined;
+    } finally {
+      this.isBusy = false;
+    }
+  }
+
+  makePhone(length: number): string {
+    let result = '';
+    const characters       = '0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
 }

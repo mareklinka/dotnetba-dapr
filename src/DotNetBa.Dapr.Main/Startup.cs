@@ -1,3 +1,5 @@
+using System.Text.Json;
+using Dapr.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,6 +23,13 @@ namespace DotNetBa.Dapr.Main
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddDapr();
+
+            services.AddDaprClient(_ => _.UseJsonSerializationOptions(new JsonSerializerOptions
+            {
+                IgnoreNullValues = true,
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            }));
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -72,6 +81,4 @@ namespace DotNetBa.Dapr.Main
             });
         }
     }
-
-
 }

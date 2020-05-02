@@ -21,7 +21,7 @@ namespace DotNetBa.Dapr.Main.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Login([FromBody] LoginModel model, CancellationToken cancellationToken)
+        public async Task<ActionResult> Login([FromBody] LoginModel model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"User {model.Username} is attempting to log in");
 
@@ -29,13 +29,6 @@ namespace DotNetBa.Dapr.Main.Controllers
             {
                 throw new AuthenticationException("Invalid login model");
             }
-
-            var dapr = new DaprClientBuilder().UseJsonSerializationOptions(new JsonSerializerOptions
-            {
-                IgnoreNullValues = true,
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            }).Build();
 
             var response =
                 await dapr.InvokeMethodAsync<LoginModel, LoginResponse>("userservice",
@@ -50,6 +43,29 @@ namespace DotNetBa.Dapr.Main.Controllers
             }
 
             _logger.LogInformation($"User {model.Username} is now logged in");
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<ActionResult> Register([FromBody] RegistrationModel model, [FromServices] DaprClient dapr, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation($"User {model.Username} is attempting to register");
+
+            if (!model.Validate())
+            {
+                throw new AuthenticationException("Invalid login model");
+            }
+
+            await dapr
+                .SaveStateAsync("statestore",
+                                model.Username,
+                                new UserProfile { Name = model.Username, PhoneNumber = model.Phone },
+                                cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
+
+            _logger.LogInformation($"User {model.Username} is now registered");
 
             return Ok();
         }

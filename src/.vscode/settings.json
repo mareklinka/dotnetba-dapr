@@ -1,3 +1,4 @@
 {
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "git.enableCommitSigning": true
 }

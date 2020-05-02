@@ -65,132 +65,6 @@
             }
         },
         {
-            "label": "dapr-main",
-            "command": "dapr",
-            "type": "shell",
-            "args": [
-                "run",
-                "--app-id",
-                "main",
-                "--app-port",
-                "5000",
-                "dotnet",
-                "run"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/DotNetBa.Dapr.Main",
-                "env": {
-                    "ASPNETCORE_URLS": "http://+:5000"
-                }
-            },
-            "dependsOn": [
-                "build-main"
-            ],
-            "problemMatcher": [],
-            "isBackground": true,
-            "group": "none",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "dedicated",
-                "showReuseMessage": false,
-                "clear": true
-            }
-        },
-        {
-            "label": "dapr-userservice",
-            "command": "dapr",
-            "type": "shell",
-            "args": [
-                "run",
-                "--app-id",
-                "userservice",
-                "--app-port",
-                "5001",
-                "dotnet",
-                "run"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/DotNetBa.Dapr.UserService",
-                "env": {
-                    "ASPNETCORE_URLS": "http://+:5001"
-                }
-            },
-            "dependsOn": [
-                "build-userservice"
-            ],
-            "problemMatcher": [],
-            "isBackground": true,
-            "group": "none",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "dedicated",
-                "showReuseMessage": false,
-                "clear": true
-            }
-        },
-        {
-            "label": "dapr-notificationservice",
-            "command": "dapr",
-            "type": "shell",
-            "args": [
-                "run",
-                "--app-id",
-                "notificationservice",
-                "--app-port",
-                "5002",
-                "dotnet",
-                "run"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/DotNetBa.Dapr.NotificationService",
-                "env": {
-                    "ASPNETCORE_URLS": "http://+:5002"
-                }
-            },
-            "dependsOn": [
-                "build-notificationservice"
-            ],
-            "problemMatcher": [],
-            "isBackground": true,
-            "group": "none",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "dedicated",
-                "showReuseMessage": false,
-                "clear": true
-            }
-        },
-        {
-            "label": "dapr-all",
-            "command": "echo",
-            "type": "shell",
-            "args": [
-                "DAPR components starting"
-            ],
-            "dependsOn": [
-                "dapr-userservice",
-                "dapr-main"
-            ],
-            "dependsOrder": "parallel",
-            "problemMatcher": [],
-            "isBackground": true,
-            "group": "none",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "dedicated",
-                "showReuseMessage": false,
-                "clear": false
-            }
-        },
-        {
             "appId": "main",
             "appPort": 5000,
             "label": "daprd-main",
@@ -199,6 +73,7 @@
             "metricsPort": 9090,
             "grpcPort": 50001,
             "httpPort": 3500,
+            "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
             "presentation": {
                 "echo": true,
                 "reveal": "never",
@@ -230,6 +105,7 @@
             "metricsPort": 9091,
             "grpcPort": 50002,
             "httpPort": 3501,
+            "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
             "presentation": {
                 "echo": true,
                 "reveal": "never",
@@ -242,6 +118,38 @@
         {
             "appId": "userservice",
             "label": "daprd-userservice-down",
+            "type": "daprd-down",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "appId": "notificationservice",
+            "appPort": 5002,
+            "label": "daprd-notificationservice",
+            "type": "daprd",
+            "dependsOn": ["build-notificationservice"],
+            "metricsPort": 9092,
+            "grpcPort": 50003,
+            "httpPort": 3502,
+            "componentsPath": "C:\\Source\\Personal\\dotnetba-dapr\\src\\components",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "appId": "notificationservice",
+            "label": "daprd-notificationservice-down",
             "type": "daprd-down",
             "presentation": {
                 "echo": true,
