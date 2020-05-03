@@ -1,14 +1,14 @@
 ﻿using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
+using Dapr.Actors;
+using Dapr.Actors.Client;
 using Dapr.Client;
+using DotNetBa.Dapr.Common;
+using DotNetBa.Dapr.Common.Models;
 using DotNetBa.Dapr.Main.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DotNetBa.Dapr.Common.Models;
-using Dapr.Actors.Client;
-using DotNetBa.Dapr.Common;
-using Dapr.Actors;
 using static DotNetBa.Dapr.Common.Constants;
 
 namespace DotNetBa.Dapr.Main.Controllers
@@ -33,8 +33,11 @@ namespace DotNetBa.Dapr.Main.Controllers
                 throw new AuthenticationException("Invalid login model");
             }
 
-            var secret = await dapr.GetSecretAsync("azurekeyvault", "test-secret", cancellationToken: cancellationToken)
+            var secret = await dapr.GetSecretAsync(Secrets.AzureKeyVaultName, "test-secret", cancellationToken: cancellationToken)
                                    .ConfigureAwait(false);
+
+            await dapr.SaveStateAsync(Storage.SqlName, "last-login-attempt", model, cancellationToken: cancellationToken)
+                      .ConfigureAwait(false);
 
             var request = new LoginRequest { Username = model.Username, Password = model.Password };
             var response =
@@ -75,7 +78,7 @@ namespace DotNetBa.Dapr.Main.Controllers
             }
 
             await dapr
-                .SaveStateAsync(Storage.Name,
+                .SaveStateAsync(Storage.RedisName,
                                 model.Username,
                                 new UserProfile { Name = model.Username, PhoneNumber = model.Phone },
                                 cancellationToken: cancellationToken)

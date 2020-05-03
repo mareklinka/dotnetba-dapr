@@ -25,7 +25,7 @@ namespace DotNetBa.Dapr.NotificationService.Controllers
             _logger.LogInformation($"Attempting to deliver a login notification for user {model.Username}");
 
             var profile = await dapr
-                .GetStateEntryAsync<UserProfile>(Storage.Name, model.Username, cancellationToken: cancellationToken)
+                .GetStateEntryAsync<UserProfile>(Storage.RedisName, model.Username, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             if (profile.Value is null)

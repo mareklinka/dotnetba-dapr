@@ -1,0 +1,14 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: sql-server
+spec:
+  type: state.sqlserver
+  metadata:
+  - name: connectionString
+    secretKeyRef:
+      name: auzre-sql-cn
+  - name: tableName
+    value: DaprData
+auth:
+    secretStore: azurekeyvault

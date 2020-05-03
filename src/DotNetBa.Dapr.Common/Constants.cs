@@ -9,7 +9,13 @@ namespace DotNetBa.Dapr.Common
 
         public static class Storage
         {
-            public const string Name = "statestore";
+            public const string RedisName = "statestore";
+            public const string SqlName = "sql-server";
+        }
+
+        public static class Secrets
+        {
+            public const string AzureKeyVaultName = "azurekeyvault";
         }
     }
 }
