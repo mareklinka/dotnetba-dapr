@@ -1,0 +1,15 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: azurekeyvault
+spec:
+  type: secretstores.azure.keyvault
+  metadata:
+  - name: vaultName
+    value: dapr-keyvault-lima
+  - name: spnTenantId
+    value: "eb25818e-5bd5-49bf-99de-53e3e7b42630"
+  - name: spnClientId
+    value: "136c29fd-138c-4220-ac3d-a9a571434f7f"
+  - name: spnCertificateFile
+    value : "C:\\Source\\Personal\\dotnetba-dapr\\src\\components\\cert.pfx"

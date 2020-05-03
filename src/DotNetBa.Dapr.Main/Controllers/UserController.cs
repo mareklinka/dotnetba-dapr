@@ -33,6 +33,9 @@ namespace DotNetBa.Dapr.Main.Controllers
                 throw new AuthenticationException("Invalid login model");
             }
 
+            var secret = await dapr.GetSecretAsync("azurekeyvault", "test-secret", cancellationToken: cancellationToken)
+                                   .ConfigureAwait(false);
+
             var request = new LoginRequest { Username = model.Username, Password = model.Password };
             var response =
                 await dapr.InvokeMethodAsync<LoginRequest, LoginResponse>("userservice",
