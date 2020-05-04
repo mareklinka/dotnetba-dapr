@@ -24,18 +24,14 @@ namespace DotNetBa.Dapr.NotificationService.Controllers
         {
             _logger.LogInformation($"Attempting to deliver a login notification for user {model.Username}");
 
-            var profile = await dapr
-                .GetStateEntryAsync<UserProfile>(Storage.RedisName, model.Username, cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
-
-            if (profile.Value is null)
+            if (string.IsNullOrWhiteSpace(model.Phone))
             {
-                _logger.LogWarning($"Unable to load user profile for user {model.Username}");
+                _logger.LogWarning($"Unable to send notification for user {model.Username}");
                 return Ok();
             }
 
             _logger.LogInformation($"User profile for {model.Username} loaded.");
-            _logger.LogInformation($"Sending notification to {profile.Value.PhoneNumber}");
+            _logger.LogInformation($"Sending notification to {model.Phone}");
 
             return Ok();
         }

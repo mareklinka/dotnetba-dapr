@@ -1,10 +1,11 @@
-﻿using System.Threading;
-using System;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using Dapr.Client;
+using DotNetBa.Dapr.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using DotNetBa.Dapr.Common.Models;
 using static DotNetBa.Dapr.Common.Constants;
 
 namespace DotNetBa.Dapr.UserService.Controllers
@@ -25,12 +26,23 @@ namespace DotNetBa.Dapr.UserService.Controllers
         {
             _logger.LogInformation("Login request received - processing...");
 
-            if (model.Username == "error")
+            var profile = await dapr.GetStateEntryAsync<UserProfile>(Storage.RedisName,
+                                                                     model.Username,
+                                                                     cancellationToken: cancellationToken)
+                                    .ConfigureAwait(false);
+
+            if (profile.Value is null)
             {
-                throw new Exception("this is my error message");
+                return new LoginResponse { IsSuccess = false };
             }
 
-            var request = new LoginNotificationRequest { Username = model.Username, Timestamp = DateTime.Now };
+            var request = new LoginNotificationRequest
+            {
+                Username = model.Username,
+                Timestamp = DateTime.Now,
+                Phone = profile.Value.PhoneNumber
+            };
+
             await dapr.PublishEventAsync(Topics.LoginNotification, request, cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Login request approved.");
@@ -41,6 +53,29 @@ namespace DotNetBa.Dapr.UserService.Controllers
                 Roles = new[] { "role_1", "role_x" },
                 Username = model.Username
             };
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] RegistrationRequest model,
+                                                  [FromServices] DaprClient dapr,
+                                                  CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Register request received - processing...");
+
+            if (model.Username == "error")
+            {
+                throw new Exception("this is my error message");
+            }
+
+            var profile = new UserProfile { Name = model.Username, PhoneNumber = model.Phone };
+
+            await dapr.SaveStateAsync(Storage.RedisName, profile.Name, profile, cancellationToken: cancellationToken)
+                      .ConfigureAwait(false);
+
+            _logger.LogInformation("Registration successful.");
+
+            return Ok();
         }
     }
 }

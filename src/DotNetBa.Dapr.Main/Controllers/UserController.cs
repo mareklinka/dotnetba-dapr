@@ -41,7 +41,7 @@ namespace DotNetBa.Dapr.Main.Controllers
 
             var request = new LoginRequest { Username = model.Username, Password = model.Password };
             var response =
-                await dapr.InvokeMethodAsync<LoginRequest, LoginResponse>("userservice",
+                await dapr.InvokeMethodAsync<LoginRequest, LoginResponse>(Apps.UserService,
                                                                           "login/login",
                                                                           request,
                                                                           cancellationToken: cancellationToken)
@@ -65,10 +65,9 @@ namespace DotNetBa.Dapr.Main.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult> Register(
-            [FromBody] RegistrationModel model,
-            [FromServices] DaprClient dapr,
-            CancellationToken cancellationToken)
+        public async Task<ActionResult> Register([FromBody] RegistrationModel model,
+                                                 [FromServices] DaprClient dapr,
+                                                 CancellationToken cancellationToken)
         {
             _logger.LogInformation($"User {model.Username} is attempting to register");
 
@@ -77,12 +76,11 @@ namespace DotNetBa.Dapr.Main.Controllers
                 throw new AuthenticationException("Invalid login model");
             }
 
-            await dapr
-                .SaveStateAsync(Storage.RedisName,
-                                model.Username,
-                                new UserProfile { Name = model.Username, PhoneNumber = model.Phone },
-                                cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+            await dapr.InvokeMethodAsync(Apps.UserService,
+                                         "login/register",
+                                         new RegistrationRequest { Username = model.Username, Phone = model.Phone },
+                                         cancellationToken: cancellationToken)
+                      .ConfigureAwait(false);
 
             _logger.LogInformation($"User {model.Username} is now registered");
 

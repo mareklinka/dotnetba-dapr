@@ -2,6 +2,12 @@ namespace DotNetBa.Dapr.Common
 {
     public static class Constants
     {
+        public static class Apps
+        {
+            public const string NotificationService = "notificationservice";
+            public const string UserService = "userservice";
+        }
+
         public static class Topics
         {
             public const string LoginNotification = "notification_login";

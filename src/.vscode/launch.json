@@ -19,7 +19,9 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5000"
+                "ASPNETCORE_URLS": "http://localhost:5000",
+                "DAPR_HTTP_PORT": "3500",
+                "DAPR_GRPC_PORT": "50001"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
@@ -41,7 +43,9 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5001"
+                "ASPNETCORE_URLS": "http://localhost:5001",
+                "DAPR_HTTP_PORT": "3501",
+                "DAPR_GRPC_PORT": "50002"
             },
             "postDebugTask": "daprd-userservice-down"
         },
@@ -60,7 +64,9 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5002"
+                "ASPNETCORE_URLS": "http://localhost:5002",
+                "DAPR_HTTP_PORT": "3502",
+                "DAPR_GRPC_PORT": "50003"
             },
             "postDebugTask": "daprd-notificationservice-down"
         },
@@ -78,7 +84,9 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5003"
+                "ASPNETCORE_URLS": "http://localhost:5003",
+                "DAPR_HTTP_PORT": "3503",
+                "DAPR_GRPC_PORT": "50004"
             },
             "preLaunchTask": "daprd-actors",
             "postDebugTask": "daprd-actors-down"
