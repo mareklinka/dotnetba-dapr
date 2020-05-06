@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Dapr.Actors;
 using Dapr.Actors.Client;
 using Dapr.Client;
+using Dapr.Client.Http;
 using DotNetBa.Dapr.Common;
 using DotNetBa.Dapr.Common.Models;
 using DotNetBa.Dapr.Main.Models;
@@ -44,6 +45,7 @@ namespace DotNetBa.Dapr.Main.Controllers
                 await dapr.InvokeMethodAsync<LoginRequest, LoginResponse>(Apps.UserService,
                                                                           "login/login",
                                                                           request,
+                                                                          new HTTPExtension() { Verb = HTTPVerb.Post },
                                                                           cancellationToken: cancellationToken)
                           .ConfigureAwait(false);
 
@@ -79,6 +81,7 @@ namespace DotNetBa.Dapr.Main.Controllers
             await dapr.InvokeMethodAsync(Apps.UserService,
                                          "login/register",
                                          new RegistrationRequest { Username = model.Username, Phone = model.Phone },
+                                         new HTTPExtension() { Verb = HTTPVerb.Post },
                                          cancellationToken: cancellationToken)
                       .ConfigureAwait(false);
 

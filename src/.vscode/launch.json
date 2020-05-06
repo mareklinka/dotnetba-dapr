@@ -37,10 +37,6 @@
             "args": [],
             "cwd": "${workspaceFolder}/DotNetBa.Dapr.UserService",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_URLS": "http://localhost:5001",
@@ -58,10 +54,6 @@
             "args": [],
             "cwd": "${workspaceFolder}/DotNetBa.Dapr.NotificationService",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_URLS": "http://localhost:5002",
@@ -78,10 +70,6 @@
             "args": [],
             "cwd": "${workspaceFolder}/DotNetBa.Dapr.ActorService",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "ASPNETCORE_URLS": "http://localhost:5003",
