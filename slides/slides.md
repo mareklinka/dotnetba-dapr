@@ -23,7 +23,7 @@ revealOptions:
 * Expert software engineer @ ERNI
 * Focus on up-and-coming .NET (Core, ASP.NET, ML.NET)
 * Machine learning enthusiast
-* CoreFX and ML.NET contributor
+* CoreFX, ML.NET, DAPR contributor
 
 ----
 
@@ -36,7 +36,7 @@ https://twitter.com/mareklinka
 ## Agenda
 
 * What is DAPR
-* What can DAPR do for me?
+* What can DAPR do for you?
 * Setting up development environment for DAPR
 * Using DAPR in ASP.NET Core applications
 * DAPR Actors
@@ -88,7 +88,7 @@ Also:
 
 ## DAPR architecture
 
-![test](https://raw.githubusercontent.com/dapr/docs/master/images/overview.png)
+![](https://raw.githubusercontent.com/dapr/docs/master/images/overview.png)
 
 --
 
@@ -106,7 +106,7 @@ Also:
 
 * Some languages have SDKs
     * .NET Core, Java, Go, Rust etc.
-* The DAPR API can be invoked via HTTP of gRPC directly
+* The DAPR API can be invoked via HTTP or gRPC directly
 * At runtime, DAPR runs as a "sidecar" to your application
 * The runtime loads and configures your desired components and exposes them via the DAPR API
 
@@ -183,6 +183,8 @@ Also:
 --
 
 ## Demo
+
+> DAPR is still pre-release, the following code is based on DAPR 0.7
 
 1. `docker ps` and `dapr --version`
 2. VS Code
@@ -340,3 +342,7 @@ The idea of the demo is to showcase a multi-service setup with an SPA, a user ma
 * DAPR should make it easy to develop locally and deploy wherever you can get Kubernetes
 * However, handling Kubernetes and Helm is a whole new can of worms so I decided not to talk about it here
 * If there is interest, we might prepare a followup session to go into details on this side of DAPR as well
+
+--
+
+# Q&A
