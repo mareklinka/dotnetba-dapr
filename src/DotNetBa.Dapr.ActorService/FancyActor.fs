@@ -24,5 +24,7 @@ type FancyActor(actorService: ActorService, actorId: ActorId) =
                 let! _ = this.StateManager.AddOrUpdateStateAsync("fancyState", state, fun _ _ -> state) |> Async.AwaitTask
                 let! current = this.StateManager.GetStateAsync<Models.FancyActorState>("fancyState") |> Async.AwaitTask
 
+                Console.WriteLine("Actor is finished")
+
                 return current
             } |> Async.StartAsTask

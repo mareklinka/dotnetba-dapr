@@ -1,13 +1,11 @@
 ---
 theme : "black"
-transition: "zoom"
+transition: "slide"
 highlightTheme: "darkula"
 separator: ^---$
 verticalSeparator: ^--$
-revealOptions:
-    progress: false
-    overview: false
-    controls: false
+controls: false
+progress: false
 ---
 
 #### .NET BA #24
@@ -94,21 +92,12 @@ Also:
 
 ## How does DAPR work?
 
+* Building blocks are exposed via a unified API
 * For each building block DAPR provides, there is a set of platform-specific components
 * E.g. for state management (a.k.a. storage):
     * Redis, MongoDB, SQL Server, Azure CosmosDB etc.
 * Components are picked and configured via YAML files
 * You can mix, match, and swap components transparently
-
---
-
-## How do you integrate DAPR with your app?
-
-* Some languages have SDKs
-    * .NET Core, Java, Go, Rust etc.
-* The DAPR API can be invoked via HTTP or gRPC directly
-* At runtime, DAPR runs as a "sidecar" to your application
-* The runtime loads and configures your desired components and exposes them via the DAPR API
 
 --
 
@@ -150,11 +139,21 @@ Also:
 ## DAPR components 2/2
 
 * Bindings and triggers
-    * Several AWS and Azure services, HTTP, MQTT, Rabbit, Redis etc.
+    * Several AWS and Azure services, HTTP, MQTT, RabbitMQ, Redis etc.
 * Secret stores
     * AWS Secret Manager, Azure KeyVault, HashiCorp Vault etc.
 * Logs, metrics, traces
     * Azure Monitor, Grafana, Elastic Search, Application Insights
+
+--
+
+## How do you integrate DAPR with your app?
+
+* Some languages have SDKs
+    * .NET Core, Java, Go, Rust etc.
+* The DAPR API can be invoked via HTTP or gRPC directly
+* At runtime, DAPR runs as a "sidecar" to your application
+* The runtime loads and configures your desired components and exposes them via the DAPR API
 
 ---
 
@@ -162,7 +161,9 @@ Also:
 
 --
 
-* Documentation is available
+## Installing DAPR locally
+
+* Good documentation is available
 * Requirement: Docker with linux containers
 * At the end, two containers will be started:
     * Redis
@@ -242,7 +243,7 @@ The idea of the demo is to showcase a multi-service setup with an SPA, a user ma
 * Pub/sub messages can also invoke ASP.NET controller actions
 * Delivery semantics:
     * At least once
-    * If multiple isntances of the same service subscribe to a topic, only one instance of the service gets the message
+    * If multiple instances of the same service subscribe to a topic, only one instance of the service gets the message
 
 --
 
@@ -346,3 +347,7 @@ The idea of the demo is to showcase a multi-service setup with an SPA, a user ma
 --
 
 # Q&A
+
+--
+
+# Thank you
