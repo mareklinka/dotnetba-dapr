@@ -37,6 +37,11 @@ namespace DotNetBa.Dapr.Main.Controllers
             var secret = await dapr.GetSecretAsync(Secrets.AzureKeyVaultName, "test-secret", cancellationToken: cancellationToken)
                                    .ConfigureAwait(false);
 
+            var proxy = ActorProxy.Create<IFancyActor>(new ActorId("1"), "FancyActor");
+            var actorResponse = await proxy
+                .PerformComplexCalculation(new FancyActorState() { Data = "My test data" })
+                .ConfigureAwait(false);
+
             await dapr.SaveStateAsync(Storage.SqlName, "last-login-attempt", model, cancellationToken: cancellationToken)
                       .ConfigureAwait(false);
 
@@ -53,11 +58,6 @@ namespace DotNetBa.Dapr.Main.Controllers
             {
                 return Forbid();
             }
-
-            var proxy = ActorProxy.Create<IFancyActor>(new ActorId("1"), "FancyActor");
-            var actorResponse = await proxy
-                .PerformComplexCalculation(new FancyActorState() { Data = "My test data" })
-                .ConfigureAwait(false);
 
             _logger.LogInformation($"Actor produced value \"{actorResponse}\" on behalf of the user");
             _logger.LogInformation($"User {model.Username} is now logged in");
